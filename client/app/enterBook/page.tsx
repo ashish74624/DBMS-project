@@ -46,10 +46,10 @@ export default function EnterBook() {
             });
             const dataMsg = await res.json();
             if(dataMsg){
-                toast.success("Book Added");
+                toast(dataMsg.message);
             }
         } catch (error) {
-            toast.error("Book not Added");
+            toast.error("Book Addition unsuccesful");
         }
     }
 
