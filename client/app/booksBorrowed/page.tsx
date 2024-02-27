@@ -58,7 +58,7 @@ export default function BooksBorrowed() {
                   book.map((book:any)=>
                     
                   <>
-                    <p className=' '>{book.ID}</p>
+                    <p className=' '>{book.actual_Id}</p>
                     <p className=' '>{book.Student_Name}</p>
                     <p className=' '>{book.Book_Title}</p>
                     <p className=' '>{formatDate(book.Issue_Date)}</p>

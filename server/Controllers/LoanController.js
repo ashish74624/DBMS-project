@@ -14,45 +14,58 @@ export const addLoan = async (req, res) => {
   try {
     // Get student ID from the Student table
     const studentQuery = `SELECT id, Student_Name FROM Student WHERE Student_ID = ?`;
-    const [studentRows] = await connection.execute(studentQuery, [Student_ID]);
+    connection.query(studentQuery, [Student_ID], (error, studentRows) => {
+      if (error) {
+        console.error("Error querying student:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+      }
 
-    if (studentRows.length === 0) {
-      return res.status(404).json({ message: "Student not found" });
-    }
+      if (studentRows.length === 0) {
+        return res.status(404).json({ message: "Student not found" });
+      }
 
-    const student = studentRows[0];
+      const student = studentRows[0];
 
-    // Get book ID from the Book table
-    const bookQuery = `SELECT id FROM Book WHERE Book_Title = ?`;
-    const [bookRows] = await connection.execute(bookQuery, [Book_Title]);
+      // Get book ID from the Book table
+      const bookQuery = `SELECT id FROM Book WHERE Book_Title = ?`;
+      connection.query(bookQuery, [Book_Title], (error, bookRows) => {
+        if (error) {
+          console.error("Error querying book:", error);
+          return res.status(500).json({ message: "Internal Server Error" });
+        }
 
-    if (bookRows.length === 0) {
-      return res.status(404).json({ message: "Book not found" });
-    }
+        if (bookRows.length === 0) {
+          return res.status(404).json({ message: "Book not found" });
+        }
 
-    const book = bookRows[0];
+        const book = bookRows[0];
 
-    // Insert loan into Loan table
-    const loanQuery = `
-      INSERT INTO borrow (Student_Id, ID, Student_Name, Book_Id, Book_Title, Issue_Date, Return_Date)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `;
-    const [loanResult] = await connection.execute(loanQuery, [
-      student.id,
-      Student_ID,
-      student.Student_Name,
-      book.id,
-      Book_Title,
-      Issue_Date,
-      Return_Date
-    ]);
+        // Insert loan into Loan table
+        const loanQuery = `
+          INSERT INTO borrow (Student_Id, actual_Id, Student_Name, Book_Id, Book_Title, Issue_Date, Return_Date)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+        connection.query(loanQuery, [
+          student.id,
+          Student_ID,
+          student.Student_Name,
+          book.id,
+          Book_Title,
+          Issue_Date,
+          Return_Date
+        ], (error, result) => {
+          if (error) {
+            console.error("Error inserting loan:", error);
+            return res.status(500).json({ message: "Internal Server Error" });
+          }
 
-    const loanId = loanResult.insertId;
-
-    return res.status(200).json({ message: "Book Allocated", loanId: loanId });
+          return res.status(200).json({ message: "Book Allocated" });
+        });
+      });
+    });
   } catch (error) {
     console.error("Error allocating book:", error);
-    return res.status(500).json({ message: "Book not Allocated", error: error });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -73,9 +86,10 @@ export const getAllLoans = (req, res) => {
 
 export const getStudentLoans = (req, res) => {
   // Construct the SQL query
-  const sql = `SELECT borrow.Student_ID AS Student_Id, Student.Student_Name, borrow.Book_Title, borrow.Return_Date 
-               FROM borrow 
-               INNER JOIN Student ON borrow.Student_ID = Student.Student_ID`;
+  const sql = `
+    SELECT borrow.Student_Id AS Student_Id, borrow.Student_Name, borrow.Book_Title, borrow.Return_Date 
+    FROM borrow 
+  `;
 
   // Execute the query
   connection.query(sql, (error, results) => {
@@ -83,7 +97,7 @@ export const getStudentLoans = (req, res) => {
       res.status(500).json({ done: false, error: error });
     } else {
       const studentsMap = {}; // Using an object as a HashMap
-
+        console.log(results)
       // Process the results to create student objects with their loans
       results.forEach(loan => {
         const { Student_Id, Student_Name, Book_Title, Return_Date } = loan;
