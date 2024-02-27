@@ -1,6 +1,4 @@
-import Loan from "../models/Loans.js";
-import Student from '../models/Student.js'
-import Book from "../models/Book.js";
+
 
 export const addLoan = async (req, res) => {
   const { Student_ID, Book_Title, Issue_Date, Return_Date } = req.body;
@@ -50,39 +48,53 @@ export const addLoan = async (req, res) => {
   }
 };
 
-export const getAllLoans = async(req,res)=>{
-    try {
-        const loans = await Loan.find({});
+export const getAllLoans = (req, res) => {
+  // Construct the SQL query
+  const sql = `SELECT * FROM Loan`;
 
-        return res.status(200).json({message:"Loans Retrived",loans:loans})
-    } catch (error) {
-        return res.json({message:"Can't get Loan data"});
+  // Execute the query
+  connection.query(sql, (error, results) => {
+    if (error) {
+      console.error('Error fetching loans:', error);
+      res.status(500).json({ message: "Can't get Loan data", error: error });
+    } else {
+      console.log('Loans Retrieved:', results);
+      res.status(200).json({ message: 'Loans Retrieved', loans: results });
     }
-}
-
-
-export const getStudentLoans = async (req, res) => {
-    try {
-        const loans = await Loan.find({});
-        const studentsMap = {}; // Using an object as a HashMap
-
-        loans.forEach(loan => {
-            const { ID, Student_Name, Book_Title, Return_Date } = loan;
-            if (studentsMap[ID]) {
-                studentsMap[ID].books.push({Book_Title:Book_Title,Return_Date:Return_Date});
-            } else {
-                studentsMap[ID] = { Student_Id: ID, Student_Name, books: [{Book_Title:Book_Title,Return_Date:Return_Date}] };
-            }
-        });
-
-        // Convert the HashMap object to an array of students
-        const students = Object.values(studentsMap);
-
-        return res.status(200).json({ done: true, students });
-    } catch (error) {
-        return res.json({ done: false });
-    }
+  });
 };
 
+
+export const getStudentLoans = (req, res) => {
+  // Construct the SQL query
+  const sql = `SELECT Loan.Student_ID AS Student_Id, Student.Student_Name, Loan.Book_Title, Loan.Return_Date 
+               FROM Loan 
+               INNER JOIN Student ON Loan.Student_ID = Student.Student_ID`;
+
+  // Execute the query
+  connection.query(sql, (error, results) => {
+    if (error) {
+      console.error('Error fetching student loans:', error);
+      res.status(500).json({ done: false, error: error });
+    } else {
+      const studentsMap = {}; // Using an object as a HashMap
+
+      // Process the results to create student objects with their loans
+      results.forEach(loan => {
+        const { Student_Id, Student_Name, Book_Title, Return_Date } = loan;
+        if (studentsMap[Student_Id]) {
+          studentsMap[Student_Id].books.push({ Book_Title, Return_Date });
+        } else {
+          studentsMap[Student_Id] = { Student_Id, Student_Name, books: [{ Book_Title, Return_Date }] };
+        }
+      });
+
+      // Convert the HashMap object to an array of students
+      const students = Object.values(studentsMap);
+
+      res.status(200).json({ done: true, students });
+    }
+  });
+};
 
 export default { addLoan, getAllLoans, getStudentLoans }
