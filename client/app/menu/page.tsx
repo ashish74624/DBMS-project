@@ -28,9 +28,6 @@ export default function Menu() {
               <Link href={'/allocateBook'}>
                 <Button data='Allocate Book'/>
               </Link>  
-              <Link href={'/studentData'}>
-                <Button data='Student Data'/>
-              </Link>
               <Link href={'/bookDetails'}>
                 <Button data='Book Details'/>
               </Link>  
