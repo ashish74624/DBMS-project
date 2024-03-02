@@ -7,7 +7,7 @@ const backend = process.env.BACKEND;
 
 
 export default function BookDetails() {
-    const [book,setBook]:any = useState();
+    const [book,setBook]:any = useState([]);
 
     async function getAllLoans() {
         const res = await fetch(`${backend}/book/getAllBooks`);
@@ -24,31 +24,30 @@ export default function BookDetails() {
     <section className='h-screen w-screen p-6 bg-[#F5F2EE] overflow-hidden '>
         <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] rounded-lg border-4 overflow-hidden relative flex justify-center items-center'>
             <Design/>
-            <div className='bg-white w-max h-max p-4 z-50 place-items-center rounded-lg grid grid-cols-5'>
-                <p className='text-lg font-bold'>Book Title</p>
-                <p className='text-lg font-bold'>Author Name</p>
-                <p className='text-lg font-bold'>Publisher Name</p>
-                <p className='text-lg font-bold'>No Of Copies</p>
-                <p className='text-lg font-bold'>Edition</p>
-
-                {/* ---------------- */}
-                {
-                    book
-                    ?
-                    book.map((book:any)=>
-                        <>
-                            <p>{book.Book_Title}</p>
-                            <p>{book.Author_Name}</p>
-                            <p>{book.Publisher_Name}</p>
-                            <p>{book.No_Of_Copies}</p>
-                            <p>{book.Edition}</p>
-                        </>
-                    )
-                    :
-                    <></>
-                }
-
-            </div>
+            <div className="overflow-x-auto z-50">
+      <table className="table-auto w-full border-collapse ">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="px-4 py-2 border">Book Title</th>
+            <th className="px-4 py-2 border">Author Name</th>
+            <th className="px-4 py-2 border">Publisher Name</th>
+            <th className="px-4 py-2 border">No. of Copies</th>
+            <th className="px-4 py-2 border">Edition</th>
+          </tr>
+        </thead>
+        <tbody>
+          {book.map((book:any) => (
+            <tr key={book.actual_Id} className={book.actual_Id % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+              <td className="px-4 py-2 border">{book.Book_Title}</td>
+              <td className="px-4 py-2 border">{book.Author_Name}</td>
+              <td className="px-4 py-2 border">{book.Publisher_Name}</td>
+              <td className="px-4 py-2 border">{book.No_Of_Copies}</td>
+              <td className="px-4 py-2 border">{book.Edition}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
         </div>
       </section>
   )

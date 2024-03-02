@@ -39,7 +39,6 @@ export const getAllBooks = (req, res) => {
       console.error('Error fetching books:', error);
       res.status(500).json({ message: 'Books Not Found', error: error });
     } else {
-      console.log('Books Fetched:', results);
       res.status(200).json({ books: results });
     }
   });
