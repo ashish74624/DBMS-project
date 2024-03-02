@@ -106,12 +106,12 @@ export default function AllocateBook() {
                     </option>
                     }
                 </select>
-                <label className='mt-2' htmlFor="Semester" >Semester</label>
+                <label className='mt-2' htmlFor="Semester" >Issue Date</label>
                 <input type="date" {...register('Issue_Date',{valueAsDate:true})} className='bg-gray-100 rounded-md border py-1 px-2 '  />
                 <label className='mt-2' htmlFor="Return_Date" >Return Date</label>
                 <input type="date" {...register('Return_Date',{valueAsDate:true})} className='bg-gray-100 rounded-md border py-1 px-2 '  />
                 <button disabled={isSubmitting} type='submit' className='mt-4 w-full bg-[#4d2d18] text-white py-2 rounded-lg'>
-                    {isSubmitting ? "Loading...":"Register Student"} 
+                    {isSubmitting ? "Loading...":"Allocate Book"} 
                 </button>
             </form>
         </div>
