@@ -13,7 +13,7 @@ interface propType {
 
 export default function Btn({data}:propType) {
   return (
-    <Button className={`${bar.className} bg-[#4d2d18] hover:bg-[#9b5021] text-white text-3xl w-72 h-14 rounded-lg`} >
+    <Button className={`${bar.className} bg-[#4d2d18] hover:bg-[#9b5021] text-white text-3xl w-full h-14 rounded-lg`} >
       {data}
     </Button>
   )
