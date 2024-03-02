@@ -76,9 +76,9 @@ const items = [
     icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
   },
   {
-    title: "Staff Details",
+    title: "Books Borrowed",
     description: "Experience the thrill of bringing ideas to life.",
-    header: <HoverCard link={'/staff'} src={'/6.jpg'} />,
+    header: <HoverCard link={'/booksBorrowed'} src={'/6.jpg'} />,
     icon: <IconBoxAlignTopLeft className="h-4 w-4 text-neutral-500" />,
   },
   {

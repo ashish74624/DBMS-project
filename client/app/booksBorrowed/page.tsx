@@ -45,29 +45,30 @@ export default function BooksBorrowed() {
     <section className='h-screen w-screen p-6 bg-[#F5F2EE] overflow-hidden '>
       <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] rounded-lg border-4 overflow-hidden relative flex justify-center items-center'>
             <Design/>
-            <div className='bg-white w-max h-max grid z-50 grid-cols-5 place-items-center'>
-                  <p className='  text-lg font-bold'>Student Id</p>
-                  <p className='  text-lg font-bold'>Student Name</p>
-                  <p className='  text-lg font-bold'>Book Title</p>
-                  <p className='  text-lg font-bold'>Issue Date</p>
-                  <p className='  text-lg font-bold'>Return Date</p>
-                  {/* ---- */}
-                  {
-                  book 
-                  ?
-                  book.map((book:any)=>
-                    
-                  <>
-                    <p className=' '>{book.actual_Id}</p>
-                    <p className=' '>{book.Student_Name}</p>
-                    <p className=' '>{book.Book_Title}</p>
-                    <p className=' '>{formatDate(book.Issue_Date)}</p>
-                    <p className=' '>{formatDate(book.Return_Date)}</p>
-                  </>
-                  )
-                  :
-                  <></>}
-            </div>
+            <div className="overflow-x-auto">
+      <table className="table-auto w-full border-collapse">
+        <thead>
+          <tr className="bg-gray-100 text-[#4d2d18] ">
+            <th className="px-4 py-2 border">ID</th>
+            <th className="px-4 py-2 border">Student Name</th>
+            <th className="px-4 py-2 border">Book Title</th>
+            <th className="px-4 py-2 border">Issue Date</th>
+            <th className="px-4 py-2 border">Return Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {book.map((book:any) => (
+            <tr key={book.actual_Id} className={book.actual_Id % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+              <td className="px-4 py-2 border">{book.actual_Id}</td>
+              <td className="px-4 py-2 border">{book.Student_Name}</td>
+              <td className="px-4 py-2 border">{book.Book_Title}</td>
+              <td className="px-4 py-2 border">{formatDate(book.Issue_Date)}</td>
+              <td className="px-4 py-2 border">{formatDate(book.Return_Date)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
         </div>
         <Toaster />
       </section>
