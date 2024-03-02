@@ -5,6 +5,7 @@ import BookRoutes from './Routes/BookRoute.js'
 import StudentRoutes from './Routes/StudentRouter.js'
 import PublisherRoutes from './Routes/PublisherRoute.js'
 import LoanRoutes from './Routes/LoanRoute.js'
+import StaffRouter from './Routes/StaffRoute.js'
 import mysql from "mysql";
 import cors from 'cors'
 
@@ -23,6 +24,7 @@ app.use('/book',BookRoutes);
 app.use('/student',StudentRoutes);
 app.use('/pub',PublisherRoutes);
 app.use('/loan',LoanRoutes);
+app.use('/staff',StaffRouter);
 
 const connection = mysql.createConnection({
   host: "localhost",

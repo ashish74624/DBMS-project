@@ -31,6 +31,9 @@ export default function Menu() {
               <Link href={'/bookDetails'}>
                 <Button data='Book Details'/>
               </Link>  
+              <Link href={'/studentData'}>
+                <Button data='Student Data'/>
+              </Link>  
             </div>  
         </div>
       </section>
