@@ -11,7 +11,7 @@ const backend = process.env.BACKEND;
 
 
 export default function BooksBorrowed() {
-    const [book,setBook]:any = useState();
+    const [book,setBook]:any = useState([]);
 
     async function getAllLoans() {
         const res = await fetch(`${backend}/loan/getAllLoans`);
@@ -45,7 +45,7 @@ export default function BooksBorrowed() {
     <section className='h-screen w-screen p-6 bg-[#F5F2EE] overflow-hidden '>
       <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] rounded-lg border-4 overflow-hidden relative flex justify-center items-center'>
             <Design/>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto z-50">
       <table className="table-auto w-full border-collapse">
         <thead>
           <tr className="bg-gray-100 text-[#4d2d18] ">

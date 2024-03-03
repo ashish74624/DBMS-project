@@ -40,7 +40,7 @@ export const addLoan = async (req, res) => {
 
         const book = bookRows[0];
 
-        // Insert loan into Loan table
+        // Insert loan into borrow table
         const loanQuery = `
           INSERT INTO borrow (Student_Id, actual_Id, Student_Name, Book_Id, Book_Title, Issue_Date, Return_Date)
           VALUES (?, ?, ?, ?, ?, ?, ?)
