@@ -87,7 +87,7 @@ export const getAllLoans = (req, res) => {
 export const getStudentLoans = (req, res) => {
   // Construct the SQL query
   const sql = `
-    SELECT borrow.Student_Id AS Student_Id, borrow.Student_Name, borrow.Book_Title, borrow.Return_Date 
+    SELECT borrow.actual_id AS Student_Id, borrow.Student_Name, borrow.Book_Title, borrow.Return_Date 
     FROM borrow 
   `;
 
