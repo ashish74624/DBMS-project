@@ -51,7 +51,7 @@ export default function Register() {
       <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] z-50 rounded-lg border-4 overflow-hidden relative flex justify-center items-center'>
             <Design/>
            <form onSubmit={handleSubmit(onSubmit)} className="bg-white z-50 w-80 h-max  shadow-lg rounded-lg flex flex-col items-center pb-6">
-            <h2 className=" font-GraphikBlack font-medium text-3xl mt-6 mb-4">Sign Up</h2>
+            <h2 className=" font-GraphikBlack font-medium text-3xl mt-6 mb-4">Register Staff</h2>
             <div className="relative z-0 w-[80%] mb-5 group font-GraphikBlack">
                   <input {...register("Staff_Name")} type="text" id="Staff_Name" name="Staff_Name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0FADFF] peer" placeholder=" " required />

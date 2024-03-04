@@ -51,7 +51,7 @@ export default function Login() {
       <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] z-50 rounded-lg border-4 overflow-hidden relative flex justify-center items-center'>
             <Design/>
             <form onSubmit={handleSubmit(onSubmit)} className="bg-white w-80 h-max pb-6 absolute shadow-lg rounded-lg flex flex-col items-center">
-          <h2 className=" font-GraphikBlack font-medium text-3xl mt-6 mb-4">Login</h2>
+          <h2 className=" font-GraphikBlack font-medium text-3xl mt-6 mb-4">Staff Login</h2>
           <div className="relative z-0 w-[80%] group font-GraphikBlack mb-4">
             <input {...register('Staff_Email')} type="text" name="Staff_Email" className="block py-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#0FADFF] focus:outline-none focus:ring-0 focus:border-[#0FADFF] peer" placeholder=" "  />
             <label htmlFor="Staff_Email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-[#0FADFF] peer-focus:dark:text-[#0FADFF] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>

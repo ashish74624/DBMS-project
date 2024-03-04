@@ -8,65 +8,25 @@ const connection = mysql.createConnection({
   database: "dbms"
 });
 
-export const addLoan = async (req, res) => {
+export const addLoan = (req, res) => {
   const { Student_ID, Book_Title, Issue_Date, Return_Date } = req.body;
 
-  try {
-    // Get student ID from the Student table
-    const studentQuery = `SELECT id, Student_Name FROM Student WHERE Student_ID = ?`;
-    connection.query(studentQuery, [Student_ID], (error, studentRows) => {
+  connection.query(
+    "CALL InsertIntoBorrow(?, ?, ?, ?)",
+    [Student_ID, Book_Title, Issue_Date, Return_Date],
+    (error, results) => {
       if (error) {
-        console.error("Error querying student:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-      }
-
-      if (studentRows.length === 0) {
-        return res.status(404).json({ message: "Student not found" });
-      }
-
-      const student = studentRows[0];
-
-      // Get book ID from the Book table
-      const bookQuery = `SELECT id FROM Book WHERE Book_Title = ?`;
-      connection.query(bookQuery, [Book_Title], (error, bookRows) => {
-        if (error) {
-          console.error("Error querying book:", error);
+        console.error("Error adding loan:", error);
+        if (error.code === '45000') {
+          return res.status(404).json({ message: error.message });
+        } else {
           return res.status(500).json({ message: "Internal Server Error" });
         }
+      }
 
-        if (bookRows.length === 0) {
-          return res.status(404).json({ message: "Book not found" });
-        }
-
-        const book = bookRows[0];
-
-        // Insert loan into borrow table
-        const loanQuery = `
-          INSERT INTO borrow (Student_Id, actual_Id, Student_Name, Book_Id, Book_Title, Issue_Date, Return_Date)
-          VALUES (?, ?, ?, ?, ?, ?, ?)
-        `;
-        connection.query(loanQuery, [
-          student.id,
-          Student_ID,
-          student.Student_Name,
-          book.id,
-          Book_Title,
-          Issue_Date,
-          Return_Date
-        ], (error, result) => {
-          if (error) {
-            console.error("Error inserting loan:", error);
-            return res.status(500).json({ message: "Internal Server Error" });
-          }
-
-          return res.status(200).json({ message: "Book Allocated" });
-        });
-      });
-    });
-  } catch (error) {
-    console.error("Error allocating book:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
+      return res.status(200).json({ message: "Book Allocated" });
+    }
+  );
 };
 
 export const getAllLoans = (req, res) => {
@@ -97,7 +57,8 @@ export const getStudentLoans = (req, res) => {
       res.status(500).json({ done: false, error: error });
     } else {
       const studentsMap = {}; // Using an object as a HashMap
-        console.log(results)
+      console.log(results);
+
       // Process the results to create student objects with their loans
       results.forEach(loan => {
         const { Student_Id, Student_Name, Book_Title, Return_Date } = loan;
