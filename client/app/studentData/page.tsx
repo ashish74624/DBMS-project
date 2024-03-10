@@ -45,8 +45,9 @@ export default function StudentData() {
 
   return (
     <section className='h-screen w-screen p-6 bg-[#F5F2EE] overflow-hidden '>
-        <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] rounded-lg border-4 overflow-hidden relative flex justify-center items-center'>
+        <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] rounded-lg border-4 overflow-hidden relative flex justify-center flex-col items-center'>
             <Design/>
+            <h1 className="mb-1 text-[#4d2d18] text-3xl z-50">Student Data</h1>
              <div className="overflow-x-auto z-50">
       <table className="table-auto w-full border-collapse">
         <thead>
