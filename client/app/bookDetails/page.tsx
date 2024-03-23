@@ -22,7 +22,7 @@ export default function BookDetails() {
 
   return (
     <section className='h-screen w-screen p-6 bg-[#F5F2EE] overflow-hidden '>
-        <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] rounded-lg border-4 overflow-hidden relative flex justify-center items-center'>
+        <div className='bg-[#F5F2EE] shadow-2xl h-full w-full border-[#4d2d18] rounded-lg border-4 overflow-x-hidden overflow-y-scroll relative flex justify-center items-center'>
             <Design/>
             <div className="overflow-x-auto z-50">
               <h1 className="mb-1 text-[#4d2d18] text-3xl z-50 flex justify-center">Books Detail</h1>
