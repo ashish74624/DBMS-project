@@ -80,3 +80,48 @@ CREATE TABLE Staff (
     Staff_Email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 );
+
+-- procedure
+
+DELIMITER //
+
+CREATE PROCEDURE InsertIntoBorrow(
+    IN p_Student_ID INT,
+    IN p_Book_Title VARCHAR(255),
+    IN p_Issue_Date DATE,
+    IN p_Return_Date DATE
+)
+BEGIN
+    DECLARE v_Student_Id INT;
+    DECLARE v_Book_Id INT;
+
+    -- Get the Student Id based on the provided Student_ID
+    SELECT id INTO v_Student_Id FROM Student WHERE Student_ID = p_Student_ID;
+
+    -- Get the Book Id based on the provided Book_Title
+    SELECT id INTO v_Book_Id FROM book WHERE Book_Title = p_Book_Title;
+
+    -- Insert into the borrow table
+    INSERT INTO borrow (Student_Id, actual_Id, Student_Name, Book_Id, Book_Title, Issue_Date, Return_Date)
+    VALUES (v_Student_Id, p_Student_ID, (SELECT Student_Name FROM Student WHERE Student_ID = p_Student_ID), v_Book_Id, p_Book_Title, p_Issue_Date, p_Return_Date);
+END //
+
+DELIMITER ;
+
+
+--Trigger
+
+DELIMITER //
+
+CREATE TRIGGER ReduceBookCopiesTrigger
+AFTER INSERT ON borrow
+FOR EACH ROW
+BEGIN
+    -- Update the No_Of_Copies in the book table
+    UPDATE book
+    SET No_Of_Copies = No_Of_Copies - 1
+    WHERE Book_Title = NEW.Book_Title;
+END//
+
+DELIMITER ;
+
